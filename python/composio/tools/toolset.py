@@ -270,7 +270,7 @@ class ComposioToolSet(WithLogger):
             connection.appUniqueId for connection in self._connected_accounts
         ]:
             raise ComposioSDKError(
-                f"No connected account found for app `{action.app}`; "
+                f"No connected account found for app `{action.app}`:"
                 f"Run `composio add {action.app}` to fix this"
             )
 
