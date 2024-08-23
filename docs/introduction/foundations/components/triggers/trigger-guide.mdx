@@ -1,5 +1,5 @@
 ---
-title: "🛠️ Getting Started with Triggers"
+title: "Getting Started with Triggers 🛠️"
 sidebarTitle: "Triggers"
 icon: "webhook"
 description: "How to enable triggers & listen to them?"
@@ -9,11 +9,11 @@ description: "How to enable triggers & listen to them?"
 
 **Prerequisite**: Successfully **linking an account** & then having `connectedAccountId`.
 
-Triggers are predefined conditions that, when met, initiate webhooks to your agents. 
+Triggers are predefined conditions that, when met, initiate webhooks to your agents.
 These webhooks usually contain payload which cn be used to our advantage.
 
-* **Github Commit Event**: Triggers a webhook whenever there is a new commit made to a particular repository.
-* **New email in inbox (Gmail)**: Triggers a webhook whenever a new video has been added to a youtube playlist.
+- **Github Commit Event**: Triggers a webhook whenever there is a new commit made to a particular repository.
+- **New email in inbox (Gmail)**: Triggers a webhook whenever a new video has been added to a youtube playlist.
 
 ## Enabling Triggers
 
@@ -26,8 +26,10 @@ composio triggers enable <trigger_name>
 # trigger_name is the name of the trigger - slackbot_receive_thread_reply
 
 ## To disable a trigger
+
 composio triggers disable <trigger_name>
-```
+
+````
 </CodeGroup>
 </Tab>
 <Tab title="Using Python Code">
@@ -35,14 +37,15 @@ composio triggers disable <trigger_name>
 ```python Enable Trigger using python code
 from composio import Composio, Action
 
-client = Composio() 
+client = Composio()
 entity = client.get_entity(id="Jessica")
 
 # config is optional, it can be used to pass additional parameters for the trigger
 entity.enable_trigger(app=App.GOOGLECALENDAR, trigger_name="<trigger_name>", config={}) # Enable trigger
 
 entity.disable_trigger("<tigger_id>") # Disable trigger via ID
-```
+````
+
 </CodeGroup>
 </Tab>
 
@@ -85,25 +88,22 @@ Coming soon!
 </Tab>
 </Tabs>
 
-
-
-
-
 ## Listening to Triggers
+
 <Tabs>
 <Tab title="Using Python Code">
 <CodeGroup>
 ```python Create a trigger listener
-listener = composio_toolset.create_trigger_listener() 
+listener = composio_toolset.create_trigger_listener()
 
 ## Triggers when a new event has taken place
-@listener.callback(filters={"trigger_name": "trigger_name"}) 
-def callback_function(event):
-    ## Your Code Here ##
-    ## Parse event data and do something with it
+
+@listener.callback(filters={"trigger_name": "trigger_name"})
+def callback_function(event): ## Your Code Here ## ## Parse event data and do something with it
 
 listener.listen()
-```
+
+````
 </CodeGroup>
 
 </Tab>
@@ -116,7 +116,7 @@ const toolset = new LangchainToolSet({ apiKey: process.env.COMPOSIO_API_KEY }); 
 const composio_client = toolset.client
 
 // If not using LangchainToolSet
-// import {Composio} from "composio-core";  
+// import {Composio} from "composio-core";
 //const composio_client = new Composio({apiKey: process.env.COMPOSIO_API_KEY});
 
 
@@ -124,7 +124,8 @@ const composio_client = toolset.client
 composio_client.triggers.subscribe((data) => {
     console.log("trigger received", data);
 });
-```
+````
+
 </CodeGroup>
 </Tab>
 <Tab title="Using Webhook">
@@ -132,10 +133,8 @@ Coming soon!
 </Tab>
 </Tabs>
 
+## Handling Triggers
 
-
-## Handling Triggers 
-
-After completing the setup, the specified webhook URL will begin to receive data. 
+After completing the setup, the specified webhook URL will begin to receive data.
 
 This data includes the `connected_account_id` for account identification, `trigger_id` for trigger identification, and the `payload`, which adheres to the trigger's specified payload schema.

@@ -1,7 +1,7 @@
 ---
-title: "🚀 Quick Start"
-sidebarTitle: "Quick Start"
-icon: "play"
+title: "Quick Start 🚀"
+sidebarTitle: "Python"
+icon: "python"
 description: "Connect LLM to GitHub using Composio in just a few steps"
 ---
 
@@ -16,30 +16,15 @@ Learn how to use Composio to connect OpenAI with GitHub and perform actions usin
 <Steps>
 
 <Step title="Install Composio Package">
-<Tabs>
-<Tab title="Python">
-<CodeGroup>
-```bash Install Packages
-pip install composio_core composio_openai 
-```
-</CodeGroup>
-</Tab>
 
-<Tab title="JS">
 <CodeGroup>
-```javascript Install Packages 
-npm install composio-core openai
-pip install composio_core  // for installing CLI via python. 
-```
+  ```bash Install Packages pip install composio_core composio_openai ```
 </CodeGroup>
-<Note> CLI binary package coming soon. Skip if not using CLI. </Note>
-</Tab>
-</Tabs>
 
 </Step>
 <Step title="Authenticate GitHub Account for a Specific User">
 
-We will use **`Jessica`** as User identifier for now. 
+We will use **`Jessica`** as User identifier for now.
 
 <Tabs>
 <Tab title="CLI">
@@ -61,38 +46,18 @@ entity = toolset.get_entity()
 request = entity.initiate_connection(App.GITHUB)
 
 print(
-    f"Open this URL in your browser: {request.redirectUrl}"
+f"Open this URL in your browser: {request.redirectUrl}"
 )
 
-```
-</CodeGroup>
-</Tab>
-<Tab title="JS">
-<CodeGroup>
-```javascript Authenticate Jessica's GitHub Account 
-
-import { Composio } from "composio-core";
-
-const client = new Composio({
-  apiKey: process.env.COMPOSIO_API_KEY
-});
-
-const entity = await client.getEntity("Jessica");
-
-const connection = await entity.initiateConnection(
-    'github',
-    null,
-    null
-);
-```
+````
 </CodeGroup>
 </Tab>
 </Tabs>
 
 </Step>
 <Step title="Import packages and initialize clients">
-<Tabs>
-<Tab title="Python">
+{/* <Tabs>
+<Tab title="Python"> */}
 <CodeGroup>
 ```python Initialise the Composio Tool Set
 from composio_openai import ComposioToolSet, App, Action
@@ -100,9 +65,11 @@ from openai import OpenAI
 
 openai_client = OpenAI()
 composio_toolset = ComposioToolSet(entity_id="Jessica")
-```
+
+````
+
 </CodeGroup>
-</Tab>
+{/* </Tab>
 <Tab title="JS">
 Add `COMPOSIO_API_KEY` to environment variables.
 <CodeGroup>
@@ -112,24 +79,26 @@ import { OpenAI } from "openai";
 import { OpenAIToolSet } from "composio-core";
 
 const openai_client = new OpenAI({
-    apiKey: process.env.OPENAIKEY
+apiKey: process.env.OPENAIKEY
 });
 
 // Initialise the Composio Tool Set
 const composio_toolset = new OpenAIToolSet({
-    apiKey: process.env.COMPOSIO_API_KEY,
-    entityId: "Jessica",
+apiKey: process.env.COMPOSIO_API_KEY,
+entityId: "Jessica",
 });
-```
+
+````
+
 </CodeGroup>
 </Tab>
-</Tabs>
+</Tabs>*/}
 
 </Step>
 
 <Step title="Fetch all GitHub Actions and pass those actions to LLM">
-<Tabs>
-<Tab title="Python">
+{/* <Tabs>
+<Tab title="Python"> */}
 <CodeGroup>
 ```python Get GitHub action for starring a repo & Star a repository using LLM
 tools = composio_toolset.get_actions(actions=[Action.GITHUB_ACTIVITY_STAR_REPO_FOR_AUTHENTICATED_USER])
@@ -137,16 +106,18 @@ tools = composio_toolset.get_actions(actions=[Action.GITHUB_ACTIVITY_STAR_REPO_F
 task = "Star a repo composiohq/composio on GitHub"
 
 response = openai_client.chat.completions.create(
-    model="gpt-4-turbo-preview",
-    tools=tools,
-    messages=[
-        {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": task},
-    ],
+model="gpt-4-turbo-preview",
+tools=tools,
+messages=[
+{"role": "system", "content": "You are a helpful assistant."},
+{"role": "user", "content": task},
+],
 )
-```
+
+````
+
 </CodeGroup>
-</Tab>
+{/* </Tab>
 <Tab title="JS">
 <CodeGroup>
 ```javascript Get GitHub action for starring a repo & Star a repository using LLM
@@ -158,29 +129,30 @@ const instruction = "Star a repo composiohq/composio on GitHub";
 
 // Initialise the Composio Tool Set
 const response = await openai_client.chat.completions.create({
-    model: "gpt-4-turbo",
-    messages: [{ role: "user", content: instruction }],
-    tools: tools,
-    tool_choice: "auto",
+model: "gpt-4-turbo",
+messages: [{ role: "user", content: instruction }],
+tools: tools,
+tool_choice: "auto",
 });
 
-```
+````
+
 </CodeGroup>
 </Tab>
-</Tabs>
+</Tabs> */}
 
 </Step>
 
 <Step title="Handle Tool Calls - Execute Actions for Jessica">
-<Tabs>
-<Tab title="Python">
+{/* <Tabs>
+<Tab title="Python"> */}
 <CodeGroup>
 ```python Execute Function calls for Jessica
 result = composio_toolset.handle_tool_calls(response)
 print(result)
 ```
 </CodeGroup>
-</Tab>
+{/* </Tab>
 <Tab title="JS">
 <CodeGroup>
 ```javascript Execute Function calls for Jessica
@@ -188,10 +160,9 @@ await composio_toolset.handleToolCall(response);
 ```
 </CodeGroup>
 </Tab>
-</Tabs>
+</Tabs> */}
 </Step>
 </Steps>
-
 
 ### What just happened?
 
@@ -200,3 +171,4 @@ await composio_toolset.handleToolCall(response);
 - We **passed these actions to language model** along with a task.
 - The language model decided to **star the repo `composiohq/composio` for Jessica**.
 - Composio **executed the action on GitHub**.
+````
