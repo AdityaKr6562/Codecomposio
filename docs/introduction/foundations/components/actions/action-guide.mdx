@@ -9,9 +9,10 @@ description: "Learn how to perform actions with a connected account."
 
 **Prerequisite**: Successfully **linking an account** & then having `connectedAccountId`.
 
-Actions are tasks which your agent can perform. Actions can be executed on the tools which are connected. 
-* Create a Google Calendar Event 
-* Send an email
+Actions are tasks which your agent can perform. Actions can be executed on the tools which are connected.
+
+- Create a Google Calendar Event
+- Send an email
 
 <Tabs>
   <Tab title="Default Actions">
@@ -25,9 +26,10 @@ Actions are tasks which your agent can perform. Actions can be executed on the t
 </Tabs>
 
 ---
-## Working with Actions 
 
-Composio provides access to over **10,000 actions** by default. 
+## Working with Actions
+
+Composio provides access to over **10,000 actions** by default.
 To optimize LLM performance, it's crucial to select a **focused set of actions** (typically **15 or fewer**) that are **most relevant** to your specific task.
 
 <Steps>
@@ -41,7 +43,7 @@ To optimize LLM performance, it's crucial to select a **focused set of actions**
     <CodeGroup>
     ```python Selecting Actions via Name
 
-    from composio_openai import ComposioToolSet, Action 
+    from composio_openai import ComposioToolSet, Action
     # you can choose framework of your choice using composio_framework
     # ex. from composio_langchain import ComposioToolSet, Action
 
@@ -70,6 +72,7 @@ To optimize LLM performance, it's crucial to select a **focused set of actions**
     ```
     </CodeGroup>
     </Tab>
+
   </Tabs>
 
 </Accordion>
@@ -82,38 +85,41 @@ To optimize LLM performance, it's crucial to select a **focused set of actions**
   <CodeGroup>
   ```Python Selecting Actions using natural language use-case
 
-  use_case="Star a repo on github"
+use_case="Star a repo on github"
 
-  # can pass multiple apps
-  action_enums=tool_set.find_actions_by_use_case(App.GITHUB,App.SLACK,use_case=use_case)
+# can pass multiple apps
 
-  tools = tool_set.get_actions(actions=action_enums)
+action_enums=tool_set.find_actions_by_use_case(App.GITHUB,App.SLACK,use_case=use_case)
 
-  # use tools as per your framework
-  ```
-  </CodeGroup>
-  </Tab>
+tools = tool_set.get_actions(actions=action_enums)
 
-  <Tab title="Javascript">
-  <CodeGroup>
-  ```Javascript Selecting Actions using natural language use-case
+# use tools as per your framework
+
+````
+</CodeGroup>
+</Tab>
+
+<Tab title="Javascript">
+<CodeGroup>
+```Javascript Selecting Actions using natural language use-case
 import { LangchainToolSet } from "composio-core";
 
 const toolset = new LangchainToolSet({
-    apiKey: process.env.COMPOSIO_API_KEY,
-    entityId: "default"
+  apiKey: process.env.COMPOSIO_API_KEY,
+  entityId: "default"
 });
 
 const actionsList = await toolset.client.actions.list({
-    useCase: "create github issues"
+  useCase: "create github issues"
 });
 
 const actions = await toolset.getActions({
-    actions: actionsList.items.map((action) => {
-        return action.name;
-    })
+  actions: actionsList.items.map((action) => {
+      return action.name;
+  })
 })
-  ```
+````
+
   </CodeGroup>
   </Tab>
 
@@ -129,28 +135,34 @@ const actions = await toolset.getActions({
 
 <Accordion title="Selecting Actions via Apps">
 
-<Warning> 
-Efficiency can be significantly enhanced by selectively filtering actions rather than assigning all available actions of an application to the agent. 
+<Warning>
+  Efficiency can be significantly enhanced by selectively filtering actions
+  rather than assigning all available actions of an application to the agent.
 </Warning>
 
-<Info>Empirical evidence indicates that agents perform optimally when limited to fewer than 20 actions.</Info>
+<Info>
+  Empirical evidence indicates that agents perform optimally when limited to
+  fewer than 20 actions.
+</Info>
 
 <Tabs>
 <Tab title="Python">
 <CodeGroup>
 ```python Selecting Actions via Apps & Tags
-tools = tool_set.get_tools(apps=[App.GITHUB]) 
+tools = tool_set.get_tools(apps=[App.GITHUB])
 
 # Filter by tags
+
 tag = "users"
 
 action_enums = toolset.find_actions_by_tags(
-    App.GITHUB,
-    tags=[tag], 
+App.GITHUB,
+tags=[tag],
 )
 
 tools = tool_set.get_actions(actions=action_enums)
-```
+
+````
 </CodeGroup>
 </Tab>
 
@@ -173,17 +185,16 @@ const actions = await toolset.getActions({
         return action.name;
     })
 })
-```
+````
+
 </CodeGroup>
 </Tab>
 
 <Tab title="CLI">
-<CodeGroup>
-```bash Selecting Actions via Apps
-composio actions --app 'github' --tag 'code' 
-# Don't use tag if you want all actions
-```
-</CodeGroup>
+  <CodeGroup>
+    ```bash Selecting Actions via Apps composio actions --app 'github' --tag
+    'code' # Don't use tag if you want all actions ```
+  </CodeGroup>
 </Tab>
 
 </Tabs>
@@ -205,11 +216,12 @@ from composio import ComposioToolSet, Action
 tool_set = ComposioToolSet(api_key="COMPOSIO_API_KEY")
 
 tool_set.execute_action(
-    action=Action.SLACK_CHAT_POST_MESSAGE,
-    params={"text": "Hello, world!", "channel": "D04N8SVQKKU"},
-    entity_id="melissa",
+action=Action.SLACK_CHAT_POST_MESSAGE,
+params={"text": "Hello, world!", "channel": "D04N8SVQKKU"},
+entity_id="melissa",
 )
-```
+
+````
 ```javascript javascript
 
 import { OpenAIToolSet } from "composio-core";
@@ -227,7 +239,8 @@ await toolset.executeAction(
     },
    entity.id
 );
-```
+````
+
 </CodeGroup>
 </Tab>
 
@@ -240,7 +253,6 @@ await toolset.executeAction(
       from langchain_openai import ChatOpenAI
       from composio_langchain import ComposioToolSet, Action, App
       import os
-
 
       llm = ChatOpenAI(model="gpt-4o")
 
@@ -287,12 +299,14 @@ await toolset.executeAction(
       ```
     </CodeGroup>
     This code demonstrates how to use natural language to execute an action. By defining a task and using the `AgentExecutor`, you can perform complex actions with simple language commands.
+
   </Tab>
 </Tabs>
 </Step>
 </Steps>
 
---- 
+---
+
 ## Action Selection and Filtering
 
 <Warning>
@@ -313,9 +327,11 @@ Some Composio tools provide a wide array of over 100 actions. However, there are
 
 - **Performance Impact**: The performance and decision-making accuracy of agents can diminish when they are overwhelmed with too many choices.
 - **Model Limitations**: OpenAI Models imposes a limit, supporting no more than 128 actions per request. Exceeding this limit results in errors.
-  
-<Info>Empirical evidence indicates that agents perform optimally when limited to fewer than 20 actions.</Info>
 
-To address these issues, it is crucial to streamline the number of actions presented to agents. 
+<Info>
+  Empirical evidence indicates that agents perform optimally when limited to
+  fewer than 20 actions.
+</Info>
+
+To address these issues, it is crucial to streamline the number of actions presented to agents.
 This can be effectively managed by employing various action filtering techniques.
-

@@ -1,5 +1,5 @@
 ---
-title: "🛠️ Enhancing Action Inputs & Outputs"
+title: "Enhancing Action Inputs & Outputs 🛠️"
 sidebarTitle: "Processing Actions"
 icon: "wand-magic-sparkles"
 description: "Master the art of preprocessing and postprocessing actions for optimal results."
@@ -12,7 +12,7 @@ In many scenarios, the raw inputs or outputs of actions may benefit from additio
 - **Postprocessing**: Streamline large action responses by filtering or formatting the data before it reaches the Language Model (LLM).
 - **Preprocessing**: Generate or modify inputs dynamically at runtime, handling scenarios that may be challenging for the LLM to produce directly.
 
-Composio empowers you with the ability to define **custom Python functions** as preprocessors or postprocessors. 
+Composio empowers you with the ability to define **custom Python functions** as preprocessors or postprocessors.
 
 These can be applied at two levels:
 
@@ -20,6 +20,7 @@ These can be applied at two levels:
 2. **Action-level**: Tailored processing for individual actions.
 
 Here's how you can implement these processors:
+
 <Steps>
 <Step title="Define the Preprocessor or Postprocessor Functions">
 <CodeGroup>
@@ -28,18 +29,16 @@ def tool_preprocessor(input_data):
     # Modify input_data as needed
     return modified_input_data
 
-def tool_postprocessor(output_data):
-    # Process output_data as needed
-    return processed_output_data
+def tool_postprocessor(output_data): # Process output_data as needed
+return processed_output_data
 
-def action_preprocessor(input_data):
-    # Modify input_data as needed
-    return modified_input_data
+def action_preprocessor(input_data): # Modify input_data as needed
+return modified_input_data
 
-def action_postprocessor(output_data):
-    # Process output_data as needed
-    return processed_output_data
-```
+def action_postprocessor(output_data): # Process output_data as needed
+return processed_output_data
+
+````
 </CodeGroup>
 </Step>
 <Step title="Use them while creating the toolset">
@@ -60,12 +59,13 @@ composio_toolset = ComposioToolSet(
 )
 
 tools = composio_toolset.get_tools(apps=[App.GITHUB])
-```
+````
+
 </CodeGroup>
 </Step>
 </Steps>
 
-
 <Warning>
-  Ensure that your preprocessing and postprocessing functions are efficient and don't introduce significant latency.
+  Ensure that your preprocessing and postprocessing functions are efficient and
+  don't introduce significant latency.
 </Warning>
