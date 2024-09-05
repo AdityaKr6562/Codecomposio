@@ -214,45 +214,28 @@ class FileManager(Sessionable):
             pattern = Path(pattern)
 
         results: t.Dict[str, t.List[t.Tuple[int, str]]] = {}
-        paths_to_search: t.List[Path] = []
-
         if pattern.is_file():
             paths_to_search = [pattern]
         elif pattern.is_dir():
-            if recursive:
-                paths_to_search = list(pattern.rglob("*"))
-            else:
-                paths_to_search = list(pattern.glob("*"))
+            paths_to_search = pattern.rglob("*") if recursive else pattern.glob("*")
         else:
-            if recursive:
-                paths_to_search = list(self.working_dir.rglob(str(pattern)))
-            else:
-                paths_to_search = list(self.working_dir.glob(str(pattern)))
+            glob_func = self.working_dir.rglob if recursive else self.working_dir.glob
+            paths_to_search = glob_func(str(pattern))
 
+        word_lower = word.lower() if case_insensitive else word
         for file_path in paths_to_search:
             if file_path.is_file() and not file_path.name.startswith("."):
                 try:
                     with file_path.open("r", encoding="utf-8") as f:
+                        rel_path = str(file_path.relative_to(self.working_dir))
                         for i, line in enumerate(f, 1):
-                            if case_insensitive:
-                                word_lower = word.lower()
-                                if word_lower in line.lower():
-                                    rel_path = str(
-                                        file_path.relative_to(self.working_dir)
-                                    )
-                                    if rel_path not in results:
-                                        results[rel_path] = []
-                                    results[rel_path].append((i, line.strip()))
-                            else:
-                                if word in line:
-                                    rel_path = str(
-                                        file_path.relative_to(self.working_dir)
-                                    )
-                                    if rel_path not in results:
-                                        results[rel_path] = []
-                                    results[rel_path].append((i, line.strip()))
-                except UnicodeDecodeError:
-                    # Skip binary files
+                            content = line.lower() if case_insensitive else line
+                            if word_lower in content:
+                                if rel_path not in results:
+                                    results[rel_path] = []
+                                results[rel_path].append((i, line.strip()))
+                except (UnicodeDecodeError, OSError):
+                    # Skip binary files and handle OS errors
                     pass
 
         if not results:
